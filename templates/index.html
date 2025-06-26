@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube Downloader</title>
+  <link rel="icon" href="/static/favicon.png" type="image/png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: var(--card);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    input[type=text], button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #2a9d8f;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #21867a;
+    }
+    .stream {
+      margin-top: 15px;
+      padding: 10px;
+      background: var(--stream-bg);
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stream a {
+      color: #00796b;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .stream a:hover {
+      text-decoration: underline;
+    }
+    .toggle-btn {
+      margin-top: 10px;
+      background: #555;
+      color: white;
+    }
+    :root {
+      --bg: #f4f4f4;
+      --text: #000;
+      --card: #fff;
+      --stream-bg: #e0f7f5;
+    }
+    .dark {
+      --bg: #121212;
+      --text: #eee;
+      --card: #1e1e1e;
+      --stream-bg: #2a2a2a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>YouTube Video Downloader</h2>
+    <button onclick="toggleMode()" class="toggle-btn">🌙 Toggle Dark Mode</button>
+    <form method="POST">
+      <input type="text" name="url" placeholder="Paste YouTube URL here..." required>
+      <button type="submit">Fetch Video</button>
+    </form>
+
+    {% if error %}
+      <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    {% if streams %}
+      <h3>{{ video_title }}</h3>
+      {% for stream in streams %}
+        <div class="stream">
+          <span>{{ stream.resolution }} - {{ stream.mime_type }}</span>
+          <a href="{{ url_for('download', itag=stream.itag) }}?url={{ video_url }}">Download</a>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- AdSense Placeholder -->
+    <div style="margin-top:20px;">
+      <!-- Google AdSense Code (add your client ID here) -->
+      <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+      <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXX" data-ad-slot="YYYYYY" data-ad-format="auto"></ins> -->
+      <!-- <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+      <p style="font-size: 12px; color: gray;">[Ad Placeholder]</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleMode() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>
