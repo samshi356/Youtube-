@@ -31,5 +31,8 @@ def download(itag):
     except Exception as e:
         return f"Download error: {e}", 400
 
+# ✅ Render.com fix: Use PORT from environment variable
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render provides PORT
+    app.run(host='0.0.0.0', port=port)
+        
